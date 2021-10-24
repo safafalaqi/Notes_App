@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.databinding.ItemRowBinding
 
 
-class RVAdapter(private val images: ArrayList<String>, val context: Context): RecyclerView.Adapter<RVAdapter.ItemViewHolder>() {
+class RVAdapter(private val notes: ArrayList<String>, val context: Context): RecyclerView.Adapter<RVAdapter.ItemViewHolder>() {
     class ItemViewHolder(val binding: ItemRowBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -17,7 +17,7 @@ class RVAdapter(private val images: ArrayList<String>, val context: Context): Re
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val title = images[position]
+        val title = notes[position]
 
         holder.binding.apply {
             tvTitle.text=title
@@ -27,6 +27,6 @@ class RVAdapter(private val images: ArrayList<String>, val context: Context): Re
 
     }
 
-    override fun getItemCount() = images.size
+    override fun getItemCount() = notes.size
 
 }

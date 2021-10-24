@@ -2,6 +2,7 @@ package com.example.notesapp
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -9,16 +10,21 @@ class DBhelper (context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
     var sqLiteDatabase: SQLiteDatabase = writableDatabase
     override fun onCreate(db: SQLiteDatabase?) {
         if(db!=null){
-            db.execSQL("create table notes (_id integer primary key autoincrement,Note text)")
+            db.execSQL("create table notes (Note text)")
         }
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
     }
-    fun savedatd(note:String): Long {
+    fun saveData(note:String): Long {
         val n= ContentValues()
         n.put("Note",note)
         var status =  sqLiteDatabase.insert("notes",null,n)
         return status
     }
+
+    fun retriveData(): Cursor? {
+     return sqLiteDatabase.query("notes",null,null,null,null,null,null,null)
+    }
+
 }
