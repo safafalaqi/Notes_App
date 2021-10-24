@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         if (c != null) {
             while (c.moveToNext())
             {
-               var note= c.getString(0)
+               var note= c.getString(1)
 
                notes.add(note)
             }
