@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         btSubmit.setOnClickListener {
             note = etNote.text.toString()
 
-            if(note.isNotEmpty()) {
+            if(note.isNotBlank()) {
                 var dbhr = DBhelper(applicationContext)
                 var status = dbhr.savedatd(note)
                 Toast.makeText(

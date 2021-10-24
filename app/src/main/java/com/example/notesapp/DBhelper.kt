@@ -9,7 +9,7 @@ class DBhelper (context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
     var sqLiteDatabase: SQLiteDatabase = writableDatabase
     override fun onCreate(db: SQLiteDatabase?) {
         if(db!=null){
-            db.execSQL("create table notes (Note text)")
+            db.execSQL("create table notes (_id integer primary key autoincrement,Note text)")
         }
     }
 
