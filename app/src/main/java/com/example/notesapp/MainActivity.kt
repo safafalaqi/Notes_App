@@ -21,13 +21,20 @@ class MainActivity : AppCompatActivity() {
         btSubmit.setOnClickListener {
             note = etNote.text.toString()
 
-            var dbhr = DBhelper(applicationContext)
-            var status = dbhr.savedat(note)
-            Toast.makeText(
-                applicationContext,
-                "data saved successfully! " + status,
-                Toast.LENGTH_SHORT
-            ).show()
+            if(note.isNotEmpty()) {
+                var dbhr = DBhelper(applicationContext)
+                var status = dbhr.savedatd(note)
+                Toast.makeText(
+                    applicationContext,
+                    "data saved successfully! " + status,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else
+                Toast.makeText(
+                    applicationContext,
+                    "Field can not be empty! ",
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
 }
