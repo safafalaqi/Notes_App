@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.database
 
 import android.content.ContentValues
 import android.content.Context
@@ -10,7 +10,7 @@ class DBhelper (context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
     var sqLiteDatabase: SQLiteDatabase = writableDatabase
     override fun onCreate(db: SQLiteDatabase?) {
         if(db!=null){
-            db.execSQL("create table notes (Note text)")
+            db.execSQL("create table notes (_id INTEGER PRIMARY KEY,Note text)")
         }
     }
 
@@ -23,8 +23,20 @@ class DBhelper (context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
         return status
     }
 
-    fun retriveData(): Cursor? {
-     return sqLiteDatabase.query("notes",null,null,null,null,null,null,null)
+    fun retrieveData(): ArrayList<Note> {
+        val notes=ArrayList<Note>()
+        var c=sqLiteDatabase.query("notes",null,null,null,null,null,null,null)
+
+        //iterate through cursor and save to array list
+        if (c != null) {
+            while (c.moveToNext())
+            {
+                var note = Note(c.getString(0).toInt(),c.getString(1))
+
+                notes.add(note)
+            }
+        }
+        return notes
     }
 
 }

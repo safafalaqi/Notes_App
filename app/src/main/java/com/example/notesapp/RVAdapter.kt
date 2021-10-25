@@ -4,10 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.notesapp.database.Note
 import com.example.notesapp.databinding.ItemRowBinding
 
 
-class RVAdapter(private val notes: ArrayList<String>, val context: Context): RecyclerView.Adapter<RVAdapter.ItemViewHolder>() {
+class RVAdapter(private val notes: ArrayList<Note>, val context: Context): RecyclerView.Adapter<RVAdapter.ItemViewHolder>() {
     class ItemViewHolder(val binding: ItemRowBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -17,10 +18,10 @@ class RVAdapter(private val notes: ArrayList<String>, val context: Context): Rec
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val title = notes[position]
+        val note = notes[position].note
 
         holder.binding.apply {
-            tvTitle.text=title
+            tvTitle.text=note
 
         }
 

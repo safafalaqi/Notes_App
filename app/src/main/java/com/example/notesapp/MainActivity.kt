@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.notesapp.database.DBhelper
+import com.example.notesapp.database.Note
 import com.example.notesapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -11,8 +13,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvAdapter: RVAdapter
 
     var note = ""
-    private val notes=ArrayList<String>()
-    private val databaseHelper by lazy{DBhelper(applicationContext)}
+    private var notes=ArrayList<Note>()
+    private val databaseHelper by lazy{ DBhelper(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,51 +26,32 @@ class MainActivity : AppCompatActivity() {
         binding.btSubmit.setOnClickListener {
             note = binding.etNote.text.toString()
 
-            if(note.isNotBlank()) {
+            if (note.isNotBlank()) {
                 var status = databaseHelper.saveData(note)
                 Toast.makeText(
                     applicationContext,
                     "data saved successfully! $status",
                     Toast.LENGTH_SHORT
                 ).show()
-                retrieve()
 
-            }else
+                notes = databaseHelper.retrieveData()
+                setRV()
+
+            } else
                 Toast.makeText(
                     applicationContext,
                     "Field can not be empty! ",
                     Toast.LENGTH_SHORT
                 ).show()
         }
-        retrieve()
 
 
-
-    }
-
-
-    //retrieve data from database
-    private fun retrieve()
-    {
-        notes.clear()
-
-        var c=databaseHelper.retriveData()
-
-        //iterate through cursor and save to array list
-        if (c != null) {
-            while (c.moveToNext())
-            {
-               var note= c.getString(1)
-
-               notes.add(note)
-            }
-        }
-
+        notes = databaseHelper.retrieveData()
         //and if the array is not empty set recycler view
-        if(notes.size >= 1)
-        {
-         setRV()
+        if (notes.size >= 1) {
+            setRV()
         }
+
     }
 
     private fun setRV() {
@@ -76,7 +59,5 @@ class MainActivity : AppCompatActivity() {
         binding.rvList.adapter = rvAdapter
         binding.rvList.layoutManager = LinearLayoutManager(applicationContext)
     }
-
-
 
 }
