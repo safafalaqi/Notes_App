@@ -15,7 +15,7 @@ class DBhelper (context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS celebrities")
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS notes")
         onCreate(sqLiteDatabase)
     }
     fun saveData(note:String): Long {
