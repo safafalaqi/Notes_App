@@ -5,12 +5,14 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
+import java.lang.Exception
 
-class DBhelper (context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
+class DBhelper (val context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
     var sqLiteDatabase: SQLiteDatabase = writableDatabase
     override fun onCreate(db: SQLiteDatabase?) {
         if(db!=null){
-            db.execSQL("create table notes (_id INTEGER primary key autoincrement,Note text)")
+            db.execSQL("CREATE TABLE notes (_id INTEGER PRIMARY KEY autoincrement,Note text)")
         }
     }
 
@@ -39,6 +41,31 @@ class DBhelper (context: Context): SQLiteOpenHelper(context,"notes.db",null,1) {
             }
         }
         return notes
+    }
+
+    fun updateData(pk: Int, note: String){
+
+        try {
+            val cv=ContentValues()
+            cv.put("Note",note)
+            //UPDATE notes SET Note=?
+            var status= sqLiteDatabase.update("notes",cv,"_id = $pk",null)
+            Toast.makeText(context, "Update success! $status", Toast.LENGTH_SHORT)
+                .show()
+
+        }catch (e: Exception){
+            Toast.makeText(context,"Can not Update! ",  Toast.LENGTH_SHORT  ).show()
+
+        }
+    }
+
+    fun deleteNote(note:Note) {
+        try {
+            sqLiteDatabase.delete("notes","_id = ${note.id}",null)
+            Toast.makeText(context,"Delete success! ",  Toast.LENGTH_SHORT  ).show()
+        }catch (e: Exception){
+            Toast.makeText(context,"Can not delete! ",  Toast.LENGTH_SHORT  ).show()
+        }
     }
 
 }

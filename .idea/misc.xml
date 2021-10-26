@@ -4,8 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/background_bt.xml" value="0.36944444444444446" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/background_et.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/background_form.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/custom.xml" value="0.2203125" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/layout/activity_main.xml" value="0.34210526315789475" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/layout/item_row.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/layout/custom_dialog.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/NotesApp/app/src/main/res/layout/item_row.xml" value="0.16" />
       </map>
     </option>
   </component>

@@ -9,4 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="text_color">#8e8e8e</color>
     <color name="background_color">#fafbfc</color>
+    <color name="deletecolor">#FF0101</color>
+    <color name="updatecolor">#8BC34A</color>
+    <color name="new_bg">#f69ea0</color>
+
 </resources>
