@@ -2,8 +2,11 @@ package com.example.notesapp
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,6 +16,7 @@ import com.example.notesapp.database.Note
 import com.example.notesapp.databinding.ItemRowBinding
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 
@@ -41,9 +45,8 @@ class RVAdapter(private var notes: ArrayList<Note>, val context: Context): Recyc
     }
 
     fun deleteNote(i:Int){
-        databaseHelper.deleteNote(notes[i])
-        notes=databaseHelper.retrieveData()
-        notifyDataSetChanged()
+
+        deleteAlert(i)
     }
 
     fun updateItem(i:Int){
@@ -86,6 +89,29 @@ class RVAdapter(private var notes: ArrayList<Note>, val context: Context): Recyc
             notifyDataSetChanged()
         }
         return note
+    }
+
+    fun deleteAlert(i:Int){
+
+        val dialogBuilder = android.app.AlertDialog.Builder(context)
+        dialogBuilder.setMessage("Are you sure you want to delete the note?")
+            // negative button text and action
+            .setPositiveButton("yes",DialogInterface.OnClickListener {
+                    dialog, id ->
+                databaseHelper.deleteNote(notes[i])
+                notes=databaseHelper.retrieveData()
+                notifyDataSetChanged()
+
+            })
+            .setNegativeButton("Cancel", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+                notifyDataSetChanged()
+            })
+        // create dialog box
+        val alert = dialogBuilder.create()
+        // show alert dialog
+        alert.show()
+
     }
 
 }
