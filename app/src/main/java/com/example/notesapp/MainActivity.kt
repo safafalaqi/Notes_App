@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notesapp.database.DBhelper
 import com.example.notesapp.database.Note
 import com.example.notesapp.database.NoteDatabase
 import com.example.notesapp.databinding.ActivityMainBinding
