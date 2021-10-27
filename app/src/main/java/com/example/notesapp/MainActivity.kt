@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.database.DBhelper
 import com.example.notesapp.database.Note
+import com.example.notesapp.database.NoteDatabase
 import com.example.notesapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvAdapter: RVAdapter
 
     var note = ""
-    private var notes=ArrayList<Note>()
-    private val databaseHelper by lazy{ DBhelper(applicationContext) }
+    private lateinit var notes: List<Note>
+    private val noteDao by lazy{ NoteDatabase.getInstance(applicationContext).noteDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +41,14 @@ class MainActivity : AppCompatActivity() {
 
             if (note.isNotBlank()) {
                 CoroutineScope(Dispatchers.IO).launch{
-                    var status = databaseHelper.saveData(note)
-                    notes = databaseHelper.retrieveData()
+                    noteDao.addNote(Note(0,note))
+                    notes = noteDao.getNotes()
                     withContext(Dispatchers.Main) {
                         hideKeyboard()
                         binding.etNote.text.clear()
                         Toast.makeText(
                             this@MainActivity,
-                            "data saved successfully! $status",
+                            "data saved successfully!",
                             Toast.LENGTH_SHORT
                         ).show()
                         setRV()
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            notes = databaseHelper.retrieveData()
+            notes = noteDao.getNotes()
             //and if the array is not empty set recycler view
             if (notes.size >= 1) {
                 withContext(Dispatchers.Main) {

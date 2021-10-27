@@ -19,12 +19,17 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
+import com.example.notesapp.database.NoteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
-class RVAdapter(private var notes: ArrayList<Note>, val context: Context): RecyclerView.Adapter<RVAdapter.ItemViewHolder>() {
+class RVAdapter(private var notes: List<Note>, val context: Context): RecyclerView.Adapter<RVAdapter.ItemViewHolder>() {
     class ItemViewHolder(val binding: ItemRowBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private val databaseHelper by lazy{ DBhelper(context) }
+    private val noteDao by lazy{ NoteDatabase.getInstance(context).noteDao() }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
             ItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -56,7 +61,7 @@ class RVAdapter(private var notes: ArrayList<Note>, val context: Context): Recyc
     }
     override fun getItemCount() = notes.size
 
-    private fun customAlert(position:Int):String
+    private fun customAlert(position:Int)
     {
         var note=""
         val dialog = Dialog(context)
@@ -76,19 +81,22 @@ class RVAdapter(private var notes: ArrayList<Note>, val context: Context): Recyc
             if(etUpdate.text.isNotBlank()){
                 note= etUpdate.text.toString()
                 if(note.isNotBlank()) {
-                    databaseHelper.updateData(notes[position].id, note)
-                    notes = databaseHelper.retrieveData()
+                    CoroutineScope(Dispatchers.IO).launch{
+                    notes[position].note=etUpdate.text.toString()
+                    noteDao.updateNote(notes[position])
+                        notes = noteDao.getNotes()
+                        withContext(Dispatchers.Main){ notifyDataSetChanged()
+                            dialog.dismiss()}
                 }
-                notifyDataSetChanged()
-                dialog.dismiss()
             }else
                 Toast.makeText(context,"Note can not be empty!",Toast.LENGTH_SHORT).show()
+        }
         }
         btClose.setOnClickListener{
             dialog.cancel()
             notifyDataSetChanged()
         }
-        return note
+
     }
 
     fun deleteAlert(i:Int){
@@ -98,9 +106,11 @@ class RVAdapter(private var notes: ArrayList<Note>, val context: Context): Recyc
             // negative button text and action
             .setPositiveButton("yes",DialogInterface.OnClickListener {
                     dialog, id ->
-                databaseHelper.deleteNote(notes[i])
-                notes=databaseHelper.retrieveData()
-                notifyDataSetChanged()
+                CoroutineScope(Dispatchers.IO).launch {
+                    noteDao.deleteNote(notes[i])
+                    notes = noteDao.getNotes()
+                    withContext(Dispatchers.Main){ notifyDataSetChanged()}
+                }
 
             })
             .setNegativeButton("Cancel", DialogInterface.OnClickListener {
