@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,8 +22,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvAdapter: RVAdapter
 
     var note = ""
-    private lateinit var notes: List<Note>
-    private val noteDao by lazy{ NoteDatabase.getInstance(applicationContext).noteDao() }
+    //private lateinit var notes: List<Note>
+    //declare note view model
+     val myViewModel by lazy{ ViewModelProvider(this).get(NoteViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +37,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        myViewModel.notes.observe(this, {list->
+                list?.let { rvAdapter.update(it) }
+        })
+
+        setRV()
+
         binding.btSubmit.setOnClickListener {
             note = binding.etNote.text.toString()
 
             if (note.isNotBlank()) {
-                CoroutineScope(Dispatchers.IO).launch{
-                    noteDao.addNote(Note(0,note))
-                    notes = noteDao.getNotes()
-                    withContext(Dispatchers.Main) {
+                    myViewModel.addNote(Note(0,note))
                         hideKeyboard()
                         binding.etNote.text.clear()
                         Toast.makeText(
@@ -50,11 +55,9 @@ class MainActivity : AppCompatActivity() {
                             "data saved successfully!",
                             Toast.LENGTH_SHORT
                         ).show()
-                        setRV()
-                    }
-                }
+                       // setRV()
 
-            } else
+                } else
                 Toast.makeText(
                     this,
                     "Field can not be empty! ",
@@ -62,22 +65,12 @@ class MainActivity : AppCompatActivity() {
                 ).show()
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            notes = noteDao.getNotes()
-            //and if the array is not empty set recycler view
-            if (notes.size >= 1) {
-                withContext(Dispatchers.Main) {
-                    setRV()
-                }
-            }
-        }
-
         val swipeGesture = object:SwipeGesture(this){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
                 when(direction){
                     ItemTouchHelper.LEFT ->{rvAdapter.deleteNote(viewHolder.absoluteAdapterPosition)}
-                    ItemTouchHelper.RIGHT ->{rvAdapter.updateItem(viewHolder.absoluteAdapterPosition)}
+                    ItemTouchHelper.RIGHT ->{rvAdapter.updateNote(viewHolder.absoluteAdapterPosition)}
                 }
             }
         }
@@ -87,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRV() {
 
-        rvAdapter =RVAdapter(notes, this)
+        rvAdapter =RVAdapter( this)
         binding.rvList.adapter = rvAdapter
         binding.rvList.layoutManager = LinearLayoutManager(applicationContext)
 
