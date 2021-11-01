@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesappfirebase
 
 import org.junit.Test
 

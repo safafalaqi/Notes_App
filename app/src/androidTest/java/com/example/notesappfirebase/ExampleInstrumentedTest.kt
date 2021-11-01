@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesappfirebase
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

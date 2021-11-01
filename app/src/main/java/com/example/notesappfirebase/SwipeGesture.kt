@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesappfirebase
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
