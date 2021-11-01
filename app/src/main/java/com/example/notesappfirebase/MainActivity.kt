@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notesappfirebase.database.Note
+import com.example.notesappfirebase.adapter.RVAdapter
+import com.example.notesappfirebase.adapter.SwipeGesture
+import com.example.notesappfirebase.data.Note
 import com.example.notesappfirebase.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -60,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
         }
 
-        val swipeGesture = object:SwipeGesture(this){
+        val swipeGesture = object: SwipeGesture(this){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
                 when(direction){
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRV() {
 
-        rvAdapter =RVAdapter( this)
+        rvAdapter = RVAdapter( this)
         binding.rvList.adapter = rvAdapter
         binding.rvList.layoutManager = LinearLayoutManager(applicationContext)
 

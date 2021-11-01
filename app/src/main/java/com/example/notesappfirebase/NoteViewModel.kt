@@ -2,7 +2,7 @@ package com.example.notesappfirebase
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.notesappfirebase.database.Note
+import com.example.notesappfirebase.data.Note
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope

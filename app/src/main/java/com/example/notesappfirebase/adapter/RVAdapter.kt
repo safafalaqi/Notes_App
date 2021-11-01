@@ -1,4 +1,4 @@
-package com.example.notesappfirebase
+package com.example.notesappfirebase.adapter
 
 import android.app.Dialog
 import android.graphics.Color
@@ -6,12 +6,14 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notesappfirebase.database.Note
+import com.example.notesappfirebase.data.Note
 import com.example.notesappfirebase.databinding.ItemRowBinding
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
+import com.example.notesappfirebase.MainActivity
+import com.example.notesappfirebase.R
 
 
 class RVAdapter(val mainActivity: MainActivity): RecyclerView.Adapter<RVAdapter.ItemViewHolder>() {
