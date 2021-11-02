@@ -1,16 +1,17 @@
-package com.example.notesappfirebase.adapter
+package com.example.notesappfragments.adapter
 
+import android.content.Context
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import android.content.Context
 
 import androidx.core.content.ContextCompat
-import com.example.notesappfirebase.R
+import androidx.fragment.app.FragmentActivity
+import com.example.notesappfragments.R
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 
-abstract class SwipeGesture(val context:Context): ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+abstract class SwipeGesture(val context: Context): ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
     val deleteColor = ContextCompat.getColor(context, R.color.deletecolor)
     val updateColor = ContextCompat.getColor(context, R.color.updatecolor)

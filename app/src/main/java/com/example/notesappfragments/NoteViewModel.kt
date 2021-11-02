@@ -1,8 +1,8 @@
-package com.example.notesappfirebase
+package com.example.notesappfragments
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.notesappfirebase.data.Note
+import com.example.notesappfragments.data.Note
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -24,11 +24,6 @@ class NoteViewModel() : ViewModel(){
         db.collection("notes").get().addOnSuccessListener { result ->
             result.forEach{
                 it.data.map { (key, value) -> allNotes.add(Note(it.id,value.toString()))}
-                /*val note = it.toObject(Note::class.java)
-                if(note !=null)
-                {
-                    allNotes.add(note)
-                }*/
             }
             notes.value =allNotes
         }
